@@ -1,0 +1,5 @@
+include ':kerkeeSDK_example'
+include ':kerkeeSDK'
+//include ':..:kercore_android:kercore'
+//include ':..:kerkee_android:kerkee'
+//include ':..:kernet_android:kernet'

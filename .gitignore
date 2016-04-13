@@ -1,0 +1,35 @@
+bin/
+gen/
+# Android/IJ
+obj/
+proguard/
+##libs/
+.classpath
+##.project
+##.cproject
+.settings
+pkgs/
+release.keystore
+out
+*.out
+artifacts
+project.properties
+.svn
+build/
+
+local.properties
+*.iml
+.idea/
+.gradle
+
+# Node
+node_modules
+*.log
+.nvm
+
+## generic files to ignore
+*~
+*.lock
+*.DS_Store
+*.swp
+*.out
