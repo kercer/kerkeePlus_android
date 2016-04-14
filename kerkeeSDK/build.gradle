@@ -8,7 +8,7 @@ android {
         minSdkVersion 8
         targetSdkVersion 19
         versionCode 1
-        versionName "1.0"
+        versionName "0.1.0"
     }
 
     buildTypes {
@@ -51,4 +51,6 @@ dependencies {
     compile 'com.kercer:kerkee:1.3.9'
 //    compile project(':..:kerkee_android:kerkee')
 }
+
+apply from: 'release.gradle'
 
