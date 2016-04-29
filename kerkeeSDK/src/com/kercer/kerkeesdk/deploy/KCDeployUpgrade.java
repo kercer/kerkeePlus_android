@@ -174,7 +174,7 @@ public class KCDeployUpgrade
                 }
                 catch (URISyntaxException e)
                 {
-                    e.printStackTrace();
+                    KCLog.e(e);
                 }
 
 
@@ -232,11 +232,11 @@ public class KCDeployUpgrade
             }
             catch (FileNotFoundException e)
             {
-                e.printStackTrace();
+                KCLog.e(e);
             }
             catch (URISyntaxException e)
             {
-                e.printStackTrace();
+                KCLog.e(e);
             }
         }
 

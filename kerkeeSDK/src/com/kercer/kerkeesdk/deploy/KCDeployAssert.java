@@ -39,7 +39,7 @@ public class KCDeployAssert
         catch (IOException e)
         {
             KCLog.e("DekAssistant", "KCDeploy: h5 copy failed...");
-            e.printStackTrace();
+            KCLog.e(e);
         }
         return tmpDesFile;
     }

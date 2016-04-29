@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.kercer.kercore.debug.KCLog;
 import com.kercer.kercore.io.KCZip;
 import com.kercer.kercore.util.KCUtilMd5;
 import com.kercer.kerkee.util.KCUtilFile;
@@ -78,7 +79,7 @@ public class KCDeploy
                 catch (Exception e)
                 {
                     KCUtilFile.deleteRecyle(dirDek);
-                    e.printStackTrace();
+                    KCLog.e(e);
                 }
                 KCUtilFile.deleteRecyle(tmpZipFile);
 

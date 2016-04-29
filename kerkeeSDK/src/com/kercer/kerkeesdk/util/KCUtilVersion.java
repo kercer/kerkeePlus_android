@@ -1,5 +1,7 @@
 package com.kercer.kerkeesdk.util;
 
+import com.kercer.kercore.debug.KCLog;
+
 public class KCUtilVersion
 {
 
@@ -31,7 +33,7 @@ public class KCUtilVersion
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			KCLog.e(e);
 		}
 		return res;
 	}
