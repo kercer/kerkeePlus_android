@@ -150,7 +150,6 @@ public class KCDeployUpgrade
             public void run()
             {
                 Map mapServerManifest = KCFetchManifest.fetchServerManifests(aWebApp.getManifestURI().toString());
-
                 try
                 {
                     if (mapServerManifest.size() > 0)
@@ -165,7 +164,7 @@ public class KCDeployUpgrade
                             dek.mManifestObject = serverManifestObject;
                             dek.mManifestUri = KCURI.parse(urlManifest);
                             dek.mWebApp = aWebApp;
-                            dek.setManifestFileName(mManifestFileName);
+                            dek.mManifestFileName = mManifestFileName;
                             downloadDEK(dek);
                         }
                     }
@@ -222,7 +221,6 @@ public class KCDeployUpgrade
                     @Override
                     public void onError(long downloadedBytes, Throwable e)
                     {
-
                     }
                 };
 

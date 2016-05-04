@@ -27,7 +27,7 @@ public class KCWebApp
         mDekSelf.mWebApp = this;
         if (aManifestUri != null)
         {
-            mDekSelf.setManifestFileName(aManifestUri.getLastPathSegment());
+            mDekSelf.mManifestFileName = aManifestUri.getLastPathSegment();
         }
     }
 
@@ -35,7 +35,9 @@ public class KCWebApp
     {
         String version = null;
         if (mDekSelf != null)
+        {
             version = mDekSelf.getLocalDekVersion();
+        }
         return version;
     }
 

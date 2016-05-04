@@ -24,11 +24,7 @@ public class KCDek
     protected KCWebApp mWebApp;
 
     protected static String kDefaultManifestName = "cache.manifest";
-    private String mManifestFileName = KCDek.kDefaultManifestName;
-    protected void setManifestFileName(String aManifestFileName)
-    {
-        mManifestFileName = aManifestFileName;
-    }
+    protected String mManifestFileName = KCDek.kDefaultManifestName;
 
 
     protected KCDek(File aRootPath)
