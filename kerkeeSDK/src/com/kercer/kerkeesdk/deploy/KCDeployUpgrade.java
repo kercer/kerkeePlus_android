@@ -24,10 +24,9 @@ import java.util.Set;
  */
 public class KCDeployUpgrade
 {
-    protected static String kDefaultManifestName = "cache.manifest";
     private static String kDekFileName = "tmp.dek";
 
-    private String mManifestFileName = kDefaultManifestName;
+    private String mManifestFileName = KCDek.kDefaultManifestName;
     private KCDeploy mDeploy;
 
     public KCDeployUpgrade(KCDeploy aDeploy)
@@ -152,7 +151,7 @@ public class KCDeployUpgrade
         {
             public void run()
             {
-                Map mapServerManifest = KCFetchManifest.fetchServerManifests(aWebApp.mManifestUrl);
+                Map mapServerManifest = KCFetchManifest.fetchServerManifests(aWebApp.getManifestURI().toString());
 
                 try
                 {
@@ -168,6 +167,7 @@ public class KCDeployUpgrade
                             String relativeDir = serverManifestObject.mRelativePath.substring(0, serverManifestObject.mRelativePath.lastIndexOf(File.separator));
                             dek.mRootPath = new File(aWebApp.mRootPath+File.separator+relativeDir);
                             dek.mWebApp = aWebApp;
+                            dek.setManifestFileName(mManifestFileName);
                             downloadDEK(dek);
                         }
                     }
@@ -284,6 +284,11 @@ public class KCDeployUpgrade
     public void setManifestFileName(String aManifestFileName)
     {
         mManifestFileName = aManifestFileName;
+    }
+
+    public String getManifestFileName()
+    {
+        return mManifestFileName;
     }
 
 }

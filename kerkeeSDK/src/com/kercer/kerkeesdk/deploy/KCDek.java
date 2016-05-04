@@ -23,4 +23,12 @@ public class KCDek
     //the dek belongs to a webapp
     public KCWebApp mWebApp;
 
+    protected static String kDefaultManifestName = "cache.manifest";
+    private String mManifestFileName = KCDek.kDefaultManifestName;
+    protected void setManifestFileName(String aManifestFileName)
+    {
+        mManifestFileName = aManifestFileName;
+    }
+
+
 }

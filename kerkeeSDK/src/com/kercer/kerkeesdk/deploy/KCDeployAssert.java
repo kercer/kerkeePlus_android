@@ -60,9 +60,7 @@ public class KCDeployAssert
         KCDek dek = new KCDek();
         File htmlDir = new File(mDeploy.getResRootPath());
         dek.mRootPath = htmlDir;
-        KCWebApp webapp = new KCWebApp();
-        webapp.mID = 0;
-        webapp.mRootPath = htmlDir;
+        KCWebApp webapp = new KCWebApp(0, htmlDir, null);
         boolean isOk = mDeploy.deploy(srcFile, dek);
         KCTaskExecutor.executeTask(new Runnable()
         {

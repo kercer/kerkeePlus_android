@@ -1,5 +1,7 @@
 package com.kercer.kerkeesdk.deploy;
 
+import com.kercer.kernet.uri.KCURI;
+
 import java.io.File;
 
 /**
@@ -8,9 +10,30 @@ import java.io.File;
 public class KCWebApp
 {
     //If ID = 0, that means the Webapp that contains all of the Webapps, and these all webapps in a file
-    public int mID;
+    protected int mID;
 
-    public String mManifestUrl; //webapp's root manifest url
+    protected KCURI mManifestURI; //webapp's root manifest url
 //    public String mFileHash;
-    public File mRootPath;
+    protected File mRootPath;
+
+    public KCWebApp(int aID, File aRootPath, KCURI aManifestUrl)
+    {
+        mID = aID;
+        mRootPath = aRootPath;
+        mManifestURI = aManifestUrl;
+    }
+
+    public int getID()
+    {
+        return mID;
+    }
+    public File getRootPath()
+    {
+        return mRootPath;
+    }
+
+    public KCURI getManifestURI()
+    {
+        return mManifestURI;
+    }
 }
