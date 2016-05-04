@@ -21,6 +21,11 @@ public class KCDeployFlowDefault implements KCDeployFlow
     @Override
     public void onComplete(KCDek aDek)
     {
-
     }
+
+    @Override
+    public void onDeployError(KCDeployError aError)
+    {
+    }
+
 }

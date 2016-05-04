@@ -80,6 +80,7 @@ public class KCDeploy
                 {
                     KCUtilFile.deleteRecyle(dirDek);
                     KCLog.e(e);
+                    mDeployFlow.onDeployError(new KCDeployError(e));
                 }
                 KCUtilFile.deleteRecyle(tmpZipFile);
 
@@ -87,10 +88,11 @@ public class KCDeploy
 
                 return true;
             }
-            Log.e("decodeDek", "file decrypt fail");
+            mDeployFlow.onDeployError(new KCDeployError("zip file is null or the file is not exist"));
         }
         else
         {
+            mDeployFlow.onDeployError(new KCDeployError(aSrcFile.getAbsolutePath()+": is not exists"));
             Log.e("decodeDek", aSrcFile.getAbsolutePath()+": is not exists");
         }
 

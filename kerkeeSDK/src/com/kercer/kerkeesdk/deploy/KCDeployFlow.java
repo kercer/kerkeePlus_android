@@ -9,4 +9,5 @@ public interface KCDeployFlow
 {
     File decodeFile(File aSrcFile);
     void onComplete(KCDek aDek);
+    void onDeployError(KCDeployError aError);
 }
