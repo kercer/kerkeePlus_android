@@ -13,6 +13,9 @@ import java.io.FileNotFoundException;
  */
 public class KCDek
 {
+    protected static String kDefaultManifestName = "cache.manifest";
+    protected String mManifestFileName = KCDek.kDefaultManifestName;
+
     //contain manifest dir path
     protected KCManifestObject mManifestObject;
     //if net,is a url; if local, is a full path
@@ -23,13 +26,24 @@ public class KCDek
     //the dek belongs to a webapp
     protected KCWebApp mWebApp;
 
-    protected static String kDefaultManifestName = "cache.manifest";
-    protected String mManifestFileName = KCDek.kDefaultManifestName;
-
 
     protected KCDek(File aRootPath)
     {
         mRootPath = aRootPath;
+    }
+
+    protected KCManifestObject loadLocalManifest()
+    {
+        String deployManifest = mRootPath + File.separator + mManifestFileName;
+        KCManifestObject manifestObject = null;
+        try
+        {
+            manifestObject = KCManifestParser.ParserManifest(new FileInputStream(deployManifest));
+        }
+        catch (FileNotFoundException e)
+        {
+        }
+        return manifestObject;
     }
 
     public KCManifestObject getManifestObject()
@@ -49,19 +63,5 @@ public class KCDek
         return mWebApp;
     }
 
-    protected String getLocalDekVersion()
-    {
-        String deployManifest = mRootPath + File.separator + mManifestFileName;
-        KCManifestObject manifestObject = null;
-        try
-        {
-            manifestObject = KCManifestParser.ParserManifest(new FileInputStream(deployManifest));
-        }
-        catch (FileNotFoundException e)
-        {
-        }
-        if (manifestObject != null) return manifestObject.getVersion();
-        return null;
-    }
 
 }

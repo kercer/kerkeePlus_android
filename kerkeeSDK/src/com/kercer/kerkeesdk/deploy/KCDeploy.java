@@ -105,8 +105,6 @@ public class KCDeploy
         return !TextUtils.isEmpty(hash) && !TextUtils.isEmpty(newHash) && newHash.equalsIgnoreCase(hash);
     }
 
-
-
     protected boolean checkHtmlDir(Context context)
     {
         File file = new File(getRootPath() + "/html");

@@ -179,7 +179,6 @@ public class KCDeployUpgrade
         });
     }
 
-
     private void downloadDEK(final KCDek aDek)
     {
         if (isNeedUpgrade(aDek))
@@ -241,7 +240,10 @@ public class KCDeployUpgrade
     private boolean isNeedUpgrade(KCDek aDek)
     {
         boolean isNeedUpgrade = true;
-        String curLocalDekVersion = aDek.getLocalDekVersion();
+        String curLocalDekVersion = null;
+        KCManifestObject manifestObject = aDek.loadLocalManifest();
+        if (manifestObject != null)
+            curLocalDekVersion = manifestObject.getVersion();
         if (curLocalDekVersion != null && curLocalDekVersion.length()>0)
         {
             String curAppVersion = mDeploy.getMainBundle().getVersionName();

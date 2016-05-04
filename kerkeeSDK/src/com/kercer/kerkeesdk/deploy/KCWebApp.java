@@ -1,5 +1,6 @@
 package com.kercer.kerkeesdk.deploy;
 
+import com.kercer.kerkee.manifest.KCManifestObject;
 import com.kercer.kernet.uri.KCURI;
 
 import java.io.File;
@@ -36,7 +37,9 @@ public class KCWebApp
         String version = null;
         if (mDekSelf != null)
         {
-            version = mDekSelf.getLocalDekVersion();
+            KCManifestObject manifestObject = mDekSelf.loadLocalManifest();
+            if (manifestObject != null)
+                version = manifestObject.getVersion();
         }
         return version;
     }
