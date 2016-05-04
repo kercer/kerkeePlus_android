@@ -4,14 +4,12 @@ import com.kercer.kercore.debug.KCLog;
 import com.kercer.kercore.task.KCTaskExecutor;
 import com.kercer.kerkee.manifest.KCFetchManifest;
 import com.kercer.kerkee.manifest.KCManifestObject;
-import com.kercer.kerkee.manifest.KCManifestParser;
 import com.kercer.kerkeesdk.util.KCUtilVersion;
 import com.kercer.kernet.KerNet;
 import com.kercer.kernet.download.KCDownloadListener;
 import com.kercer.kernet.uri.KCURI;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 import java.util.Collection;
@@ -161,11 +159,11 @@ public class KCDeployUpgrade
                         {
                             String urlManifest = entry.getKey();
                             KCManifestObject serverManifestObject = entry.getValue();
-                            KCDek dek = new KCDek();
+                            String relativeDir = serverManifestObject.mRelativePath.substring(0, serverManifestObject.mRelativePath.lastIndexOf(File.separator));
+                            File rootPath = new File(aWebApp.mRootPath+File.separator+relativeDir);
+                            KCDek dek = new KCDek(rootPath);
                             dek.mManifestObject = serverManifestObject;
                             dek.mManifestUri = KCURI.parse(urlManifest);
-                            String relativeDir = serverManifestObject.mRelativePath.substring(0, serverManifestObject.mRelativePath.lastIndexOf(File.separator));
-                            dek.mRootPath = new File(aWebApp.mRootPath+File.separator+relativeDir);
                             dek.mWebApp = aWebApp;
                             dek.setManifestFileName(mManifestFileName);
                             downloadDEK(dek);
@@ -245,7 +243,7 @@ public class KCDeployUpgrade
     private boolean isNeedUpgrade(KCDek aDek)
     {
         boolean isNeedUpgrade = true;
-        String curLocalDekVersion = getLocalDekVersion(aDek);
+        String curLocalDekVersion = aDek.getLocalDekVersion();
         if (curLocalDekVersion != null && curLocalDekVersion.length()>0)
         {
             String curAppVersion = mDeploy.getMainBundle().getVersionName();
@@ -266,20 +264,7 @@ public class KCDeployUpgrade
         return isNeedUpgrade;
     }
 
-    private String getLocalDekVersion(KCDek aDek)
-    {
-        String deployManifest = aDek.mRootPath + File.separator + mManifestFileName;
-        KCManifestObject manifestObject = null;
-        try
-        {
-            manifestObject = KCManifestParser.ParserManifest(new FileInputStream(deployManifest));
-        }
-        catch (FileNotFoundException e)
-        {
-        }
-        if (manifestObject != null) return manifestObject.getVersion();
-        return null;
-    }
+
 
     public void setManifestFileName(String aManifestFileName)
     {

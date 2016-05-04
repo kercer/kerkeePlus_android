@@ -11,16 +11,32 @@ public class KCWebApp
 {
     //If ID = 0, that means the Webapp that contains all of the Webapps, and these all webapps in a file
     protected int mID;
-
     protected KCURI mManifestURI; //webapp's root manifest url
 //    public String mFileHash;
     protected File mRootPath;
+    private KCDek mDekSelf;
 
-    public KCWebApp(int aID, File aRootPath, KCURI aManifestUrl)
+    public KCWebApp(int aID, File aRootPath, KCURI aManifestUri)
     {
         mID = aID;
         mRootPath = aRootPath;
-        mManifestURI = aManifestUrl;
+        mManifestURI = aManifestUri;
+
+        mDekSelf = new KCDek(aRootPath);
+        mDekSelf.mManifestUri = aManifestUri;
+        mDekSelf.mWebApp = this;
+        if (aManifestUri != null)
+        {
+            mDekSelf.setManifestFileName(aManifestUri.getLastPathSegment());
+        }
+    }
+
+    public String getVersion()
+    {
+        String version = null;
+        if (mDekSelf != null)
+            version = mDekSelf.getLocalDekVersion();
+        return version;
     }
 
     public int getID()

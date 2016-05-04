@@ -1,9 +1,12 @@
 package com.kercer.kerkeesdk.deploy;
 
 import com.kercer.kerkee.manifest.KCManifestObject;
+import com.kercer.kerkee.manifest.KCManifestParser;
 import com.kercer.kernet.uri.KCURI;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 /**
  * Created by zihong on 16/4/6.
@@ -11,17 +14,14 @@ import java.io.File;
 public class KCDek
 {
     //contain manifest dir path
-    public KCManifestObject mManifestObject;
-
+    protected KCManifestObject mManifestObject;
     //if net,is a url; if local, is a full path
     //it is dir path
-    public KCURI mManifestUri;
-
+    protected KCURI mManifestUri;
     //dek root path
-    public File mRootPath;
-
+    protected File mRootPath;
     //the dek belongs to a webapp
-    public KCWebApp mWebApp;
+    protected KCWebApp mWebApp;
 
     protected static String kDefaultManifestName = "cache.manifest";
     private String mManifestFileName = KCDek.kDefaultManifestName;
@@ -30,5 +30,42 @@ public class KCDek
         mManifestFileName = aManifestFileName;
     }
 
+
+    protected KCDek(File aRootPath)
+    {
+        mRootPath = aRootPath;
+    }
+
+    public KCManifestObject getManifestObject()
+    {
+        return mManifestObject;
+    }
+    public KCURI getManifestUri()
+    {
+        return mManifestUri;
+    }
+    public File getRootPath()
+    {
+        return mRootPath;
+    }
+    public KCWebApp getWebApp()
+    {
+        return mWebApp;
+    }
+
+    protected String getLocalDekVersion()
+    {
+        String deployManifest = mRootPath + File.separator + mManifestFileName;
+        KCManifestObject manifestObject = null;
+        try
+        {
+            manifestObject = KCManifestParser.ParserManifest(new FileInputStream(deployManifest));
+        }
+        catch (FileNotFoundException e)
+        {
+        }
+        if (manifestObject != null) return manifestObject.getVersion();
+        return null;
+    }
 
 }
