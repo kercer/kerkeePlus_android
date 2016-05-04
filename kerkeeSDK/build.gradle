@@ -52,5 +52,5 @@ dependencies {
 //    compile project(':..:kerkee_android:kerkee')
 }
 
-apply from: 'release.gradle'
+apply from: 'release_maven.gradle'
 
