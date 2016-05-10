@@ -8,7 +8,7 @@ android {
         minSdkVersion 8
         targetSdkVersion 19
         versionCode 1
-        versionName "0.1.3"
+        versionName "0.1.4"
     }
 
     buildTypes {
@@ -48,7 +48,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
-    compile 'com.kercer:kerkee:1.3.10'
+    compile 'com.kercer:kerkee:1.3.11'
 //    compile project(':..:kerkee_android:kerkee')
 }
 
