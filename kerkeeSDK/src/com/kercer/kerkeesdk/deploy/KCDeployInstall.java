@@ -20,14 +20,14 @@ import java.util.Set;
 /**
  * Created by zihong on 16/3/16.
  */
-public class KCDeployUpgrade
+public class KCDeployInstall
 {
     private static String kDekFileName = "tmp.dek";
 
     private String mManifestFileName = KCDek.kDefaultManifestName;
     private KCDeploy mDeploy;
 
-    public KCDeployUpgrade(KCDeploy aDeploy)
+    public KCDeployInstall(KCDeploy aDeploy)
     {
         mDeploy = aDeploy;
     }
@@ -132,18 +132,18 @@ public class KCDeployUpgrade
 //
 //    }
 
-    public void upgradeWebApps(Collection<KCWebApp> aWebApps)
+    public void installWebApps(Collection<KCWebApp> aWebApps)
     {
         Iterator iterator = aWebApps.iterator();
         while (iterator.hasNext())
         {
             KCWebApp webapp = (KCWebApp) iterator.next();
-            upgradeWebApp(webapp);
+            installWebApp(webapp);
         }
     }
 
 
-    public void upgradeWebApp(final KCWebApp aWebApp)
+    public void installWebApp(final KCWebApp aWebApp)
     {
         KCTaskExecutor.executeTask(new Runnable()
         {
@@ -169,7 +169,7 @@ public class KCDeployUpgrade
                         }
                     }
                 }
-                catch (URISyntaxException e)
+                catch (Exception e)
                 {
                     KCLog.e(e);
                 }
@@ -181,7 +181,7 @@ public class KCDeployUpgrade
 
     private void downloadDEK(final KCDek aDek)
     {
-        if (isNeedUpgrade(aDek))
+        if (canInstall(aDek))
         {
             try
             {
@@ -196,8 +196,6 @@ public class KCDeployUpgrade
                     {
                         if(dekFile.exists())
                             dekFile.delete();
-
-//                        KCUtilFile.deleteRecyle(dekFile);
                     }
 
                     @Override
@@ -220,6 +218,7 @@ public class KCDeployUpgrade
                     @Override
                     public void onError(long downloadedBytes, Throwable e)
                     {
+                        mDeploy.mDeployFlow.onDeployError(new KCDeployError(e));
                     }
                 };
 
@@ -233,13 +232,17 @@ public class KCDeployUpgrade
             {
                 KCLog.e(e);
             }
+            catch (Exception e)
+            {
+                KCLog.e(e);
+            }
         }
 
     }
 
-    private boolean isNeedUpgrade(KCDek aDek)
+    private boolean canInstall(KCDek aDek)
     {
-        boolean isNeedUpgrade = true;
+        boolean canInstall = true;
         String curLocalDekVersion = null;
         KCManifestObject manifestObject = aDek.loadLocalManifest();
         if (manifestObject != null)
@@ -252,16 +255,16 @@ public class KCDeployUpgrade
             if (dekCompare < 0 && apkCompare >= 0)
             {
                 KCLog.e("KCDeploy", "remote dek need update");
-                isNeedUpgrade = true;
+                canInstall = true;
             }
             else
             {
                 KCLog.e("KCDeploy", "remote dek do not need update");
-                isNeedUpgrade = false;
+                canInstall = false;
             }
         }
 
-        return isNeedUpgrade;
+        return canInstall;
     }
 
 

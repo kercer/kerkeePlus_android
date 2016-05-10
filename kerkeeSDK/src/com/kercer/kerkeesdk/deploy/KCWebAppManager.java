@@ -15,7 +15,7 @@ public class KCWebAppManager
 
     private KCDeploy mDeploy = null;
     private KCDeployAssert mDeployAssert = null;
-    private KCDeployUpgrade mDeployUpgrade = null;
+    private KCDeployInstall mDeployInstall = null;
     private Map<Integer, KCWebApp> mWebApps = new HashMap<Integer, KCWebApp>();
 
     public KCWebAppManager(Context aContext, KCDeployFlow aDeployFlow)
@@ -39,8 +39,8 @@ public class KCWebAppManager
             mDeployAssert.setAssetFileName(aAssetFileName);
         }
 
-        if (mDeployUpgrade == null)
-            mDeployUpgrade = new KCDeployUpgrade(mDeploy);
+        if (mDeployInstall == null)
+            mDeployInstall = new KCDeployInstall(mDeploy);
 
         //upgrade from Assert if app is first lauch after version changed and local has not html dir
         //don't compare RequiredVersion
@@ -69,20 +69,20 @@ public class KCWebAppManager
 
     public void setManifestFileName(String aManifestFileName)
     {
-        if (mDeployUpgrade != null)
-            mDeployUpgrade.setManifestFileName(aManifestFileName);
+        if (mDeployInstall != null)
+            mDeployInstall.setManifestFileName(aManifestFileName);
     }
 
     public void upgradeWebApps(Collection<KCWebApp> aWebApps)
     {
-        if (mDeployUpgrade != null)
-            mDeployUpgrade.upgradeWebApps(aWebApps);
+        if (mDeployInstall != null)
+            mDeployInstall.installWebApps(aWebApps);
     }
 
     public void upgradeWebApp(final KCWebApp aWebApp)
     {
-        if (mDeployUpgrade != null)
-            mDeployUpgrade.upgradeWebApp(aWebApp);
+        if (mDeployInstall != null)
+            mDeployInstall.installWebApp(aWebApp);
     }
 
 
