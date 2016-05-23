@@ -73,6 +73,10 @@ public class KCDeploy
 
                 try
                 {
+                    if (!dirDek.exists())
+                    {
+                        dirDek.mkdirs();
+                    }
                     KCZip.unZipToDir(tmpZipFile, dirDek);
                     tmpZipFile.delete();
                 }

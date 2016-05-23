@@ -49,7 +49,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
-    compile 'com.kercer:kerkee:1.3.11'
+    compile 'com.kercer:kerkee:1.3.13'
 //    compile project(':..:kerkee_android:kerkee')
 }
 
