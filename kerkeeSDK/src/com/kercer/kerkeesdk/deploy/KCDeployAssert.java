@@ -8,7 +8,6 @@ import com.kercer.kercore.task.KCTaskExecutor;
 import com.kercer.kerkee.util.KCUtilFile;
 
 import java.io.File;
-import java.io.IOException;
 
 /**
  * Created by zihong on 16/3/18.
@@ -36,7 +35,7 @@ public class KCDeployAssert
             assetTool.copyAssetFile(mAssetFileName, tmpDesFile.getAbsolutePath());
             KCLog.e("KCDeploy", "KCDeploy: h5 copy end...");
         }
-        catch (IOException e)
+        catch (Exception e)
         {
             KCLog.e("DekAssistant", "KCDeploy: h5 copy failed...");
             KCLog.e(e);
