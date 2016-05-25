@@ -26,10 +26,13 @@ public class KCDek
     //the dek belongs to a webapp
     protected KCWebApp mWebApp;
 
+    protected Boolean mIsFromAssert;
+
 
     protected KCDek(File aRootPath)
     {
         mRootPath = aRootPath;
+        mIsFromAssert = false;
     }
 
     protected KCManifestObject loadLocalManifest()
@@ -63,5 +66,9 @@ public class KCDek
         return mWebApp;
     }
 
+    public boolean isFromAssert()
+    {
+        return mIsFromAssert;
+    }
 
 }

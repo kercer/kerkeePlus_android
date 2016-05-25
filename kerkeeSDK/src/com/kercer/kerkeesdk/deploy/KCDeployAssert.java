@@ -58,6 +58,7 @@ public class KCDeployAssert
         final File srcFile = copyAssetDekFile(aContext);
         File htmlDir = new File(mDeploy.getResRootPath());
         KCDek dek = new KCDek(htmlDir);
+        dek.mIsFromAssert = true;
 //        KCWebApp webapp = new KCWebApp(0, htmlDir, null);
         boolean isOk = mDeploy.deploy(srcFile, dek);
         KCTaskExecutor.executeTask(new Runnable()
