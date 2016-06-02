@@ -7,7 +7,7 @@ import android.util.Log;
 import com.kercer.kercore.debug.KCLog;
 import com.kercer.kercore.io.KCZip;
 import com.kercer.kercore.util.KCUtilMd5;
-import com.kercer.kerkee.util.KCUtilFile;
+import com.kercer.kercore.io.KCUtilFile;
 import com.kercer.kerkee.webview.KCWebPath;
 import com.kercer.kercore.util.KCMainBundle;
 

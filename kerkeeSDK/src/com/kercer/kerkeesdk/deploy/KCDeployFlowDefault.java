@@ -1,6 +1,6 @@
 package com.kercer.kerkeesdk.deploy;
 
-import com.kercer.kerkee.util.KCUtilFile;
+import com.kercer.kercore.io.KCUtilFile;
 
 import java.io.File;
 
