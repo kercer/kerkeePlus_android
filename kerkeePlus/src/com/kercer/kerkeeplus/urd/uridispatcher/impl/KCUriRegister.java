@@ -30,6 +30,7 @@ class KCUriRegister implements IUriRegister {
 
     /**
      * 设置默认urd action
+     *
      * @param defaultUrdAction 默认urd
      * @return
      */
@@ -41,7 +42,8 @@ class KCUriRegister implements IUriRegister {
 
     /**
      * 注册urd action
-     * @param key key
+     *
+     * @param key       key
      * @param urdAction urd动作
      * @return
      */
@@ -51,7 +53,7 @@ class KCUriRegister implements IUriRegister {
             KCTaskExecutor.runTaskOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    actionsWithKey.put(key, urdAction);
+                    actionsWithKey.put(key.toLowerCase(), urdAction);
                 }
             });
             return true;
@@ -61,6 +63,7 @@ class KCUriRegister implements IUriRegister {
 
     /**
      * 取消一个urd action
+     *
      * @param key key值
      * @return
      */
@@ -71,7 +74,7 @@ class KCUriRegister implements IUriRegister {
             KCTaskExecutor.runTaskOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    actionsWithKey.remove(key);
+                    actionsWithKey.remove(key.toLowerCase());
                 }
             });
             return true;

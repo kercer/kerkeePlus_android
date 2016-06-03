@@ -2,6 +2,7 @@ package com.kercer.kerkeeplus.urd;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 
 import com.kercer.kerkeeplus.base.KCBaseActivity;
 import com.kercer.kerkeeplus.base.KCH5BaseActivity;
@@ -16,7 +17,7 @@ import java.util.List;
  * urd 抽象基础类,范型中传入，想要跳转的activity
  * Created by liweisu on 16/5/12.
  */
-public abstract class KCBaseUrdAction<T extends KCBaseActivity> implements IUriAction {
+public abstract class KCBaseUrdAction<T extends FragmentActivity> implements IUriAction {
     public static final String EXTRA_LOAD_URL = KCH5BaseActivity.EXTRA_LOAD_URL;
     public static final String AFTER_URD = KCBaseActivity.AFTER_URD;
     private Class<T> clazz;
