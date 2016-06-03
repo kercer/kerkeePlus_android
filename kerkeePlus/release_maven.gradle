@@ -4,7 +4,7 @@ apply plugin: 'signing'
 def repoUrl = 'http://scm.linzihong.com/nexus/content/repositories/releases/'
 def siteUrl = 'https://www.kerkee.com'                        // #CONFIG# // project homepage
 def gitUrl = 'https://github.com/kercer/kerkee_android.git'                     // #CONFIG# // project git
-def libName = 'kerkeeSDK'
+def libName = 'kerkeePlus'
 
 group = "com.kercer"
 //version = "1.3.0" //set in pom.project
