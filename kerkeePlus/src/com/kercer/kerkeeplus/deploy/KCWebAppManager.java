@@ -2,6 +2,21 @@ package com.kercer.kerkeeplus.deploy;
 
 import android.content.Context;
 
+import com.kercer.kercore.debug.KCLog;
+import com.kercer.kercore.util.KCUtilText;
+import com.kercer.kernet.uri.KCURI;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -12,15 +27,15 @@ import java.util.Map;
  */
 public class KCWebAppManager
 {
-
     private KCDeploy mDeploy = null;
     private KCDeployAssert mDeployAssert = null;
     private KCDeployInstall mDeployInstall = null;
     private Map<Integer, KCWebApp> mWebApps = new HashMap<Integer, KCWebApp>();
+    private final static String kDBName = "webapps";
 
     public KCWebAppManager(Context aContext, KCDeployFlow aDeployFlow)
     {
-        setup(aContext,KCDeployAssert.kDefaultAssetFileName, aDeployFlow);
+        setup(aContext, KCDeployAssert.kDefaultAssetFileName, aDeployFlow);
     }
 
     public KCWebAppManager(Context aContext, String aAssetFileName, KCDeployFlow aDeployFlow)
@@ -30,8 +45,7 @@ public class KCWebAppManager
 
     private synchronized void setup(Context aContext, String aAssetFileName, KCDeployFlow aDeployFlow)
     {
-        if (mDeploy == null)
-            mDeploy = new KCDeploy(aContext, aDeployFlow);
+        if (mDeploy == null) mDeploy = new KCDeploy(aContext, aDeployFlow);
 
         if (mDeployAssert == null)
         {
@@ -39,14 +53,103 @@ public class KCWebAppManager
             mDeployAssert.setAssetFileName(aAssetFileName);
         }
 
-        if (mDeployInstall == null)
-            mDeployInstall = new KCDeployInstall(mDeploy);
+        if (mDeployInstall == null) mDeployInstall = new KCDeployInstall(mDeploy);
 
         //upgrade from Assert if app is first lauch after version changed and local has not html dir
         //don't compare RequiredVersion
         if (mDeploy.getMainBundle().isFirstLaunchAfterVersionChanged() || !mDeploy.checkHtmlDir(aContext))
         {
             mDeployAssert.deployFromAssert(aContext);
+        }
+
+    }
+
+    private static String readFileText(File path)
+    {
+        String content = "";
+        if (path.isDirectory())
+        {
+            KCLog.d("kerkeePlus", "The File doesn't not exist.");
+        }
+        else
+        {
+            try
+            {
+                InputStream instream = new FileInputStream(path);
+                if (instream != null)
+                {
+                    InputStreamReader inputreader = new InputStreamReader(instream);
+                    BufferedReader buffreader = new BufferedReader(inputreader);
+                    String line;
+                    while ((line = buffreader.readLine()) != null)
+                    {
+                        content += line + "\n";
+                    }
+                    instream.close();
+                }
+            }
+            catch (java.io.FileNotFoundException e)
+            {
+                KCLog.d("kerkeePlus", "The File doesn't not exist.");
+            }
+            catch (IOException e)
+            {
+                KCLog.d("kerkeePlus", e.getMessage());
+            }
+        }
+        return content;
+    }
+
+    private void loadWebappsCfg()
+    {
+        File webappsJsonPath = new File(mDeploy.getResRootPath()+"/webapps.json");
+        String str = readFileText(webappsJsonPath);
+
+        if (!KCUtilText.isEmpty(str))
+        {
+            try
+            {
+                JSONObject jsonObject = new JSONObject(str);
+                KCLog.d(jsonObject.toString());
+                JSONArray jsonWebapps = jsonObject.getJSONArray("webapps");
+                int length = jsonWebapps.length();
+                for (int i = 0; i<length; ++i)
+                {
+                    JSONObject jsonWebapp = jsonWebapps.getJSONObject(i);
+                    int id = jsonWebapp.getInt("id");
+                    String root = jsonWebapp.getString("root");
+                    String manifestUrl = jsonWebapp.getString("manifestUrl");
+
+                    if (id == 0) continue;
+
+                    File fileRoot = new File(mDeploy.getResRootPath());
+                    if (!KCUtilText.isEmpty(root))
+                    {
+                        String rootPath = root.replace("./", KCUtilText.EMPTY_STR);
+                        fileRoot = new File(fileRoot+File.separator+rootPath);
+                    }
+                    KCURI manifestUri = null;
+                    if (!KCUtilText.isEmpty(manifestUrl))
+                    {
+                        manifestUri = KCURI.parse(manifestUrl);
+                    }
+
+                    KCWebApp webApp = new KCWebApp(id,fileRoot, manifestUri);
+                    addWebApp(webApp);
+                }
+            }
+            catch (JSONException e)
+            {
+                KCLog.e(e);
+            }
+            catch (URISyntaxException e1)
+            {
+                KCLog.e(e1);
+            }
+            catch (Exception exc)
+            {
+                KCLog.e(exc);
+            }
         }
     }
 
@@ -59,6 +162,7 @@ public class KCWebAppManager
             addWebApp(webapp);
         }
     }
+
     public synchronized boolean addWebApp(KCWebApp aWebApp)
     {
         if (aWebApp == null) return false;
@@ -69,20 +173,17 @@ public class KCWebAppManager
 
     public void setManifestFileName(String aManifestFileName)
     {
-        if (mDeployInstall != null)
-            mDeployInstall.setManifestFileName(aManifestFileName);
+        if (mDeployInstall != null) mDeployInstall.setManifestFileName(aManifestFileName);
     }
 
     public void upgradeWebApps(Collection<KCWebApp> aWebApps)
     {
-        if (mDeployInstall != null)
-            mDeployInstall.installWebApps(aWebApps);
+        if (mDeployInstall != null) mDeployInstall.installWebApps(aWebApps);
     }
 
     public void upgradeWebApp(final KCWebApp aWebApp)
     {
-        if (mDeployInstall != null)
-            mDeployInstall.installWebApp(aWebApp);
+        if (mDeployInstall != null) mDeployInstall.installWebApp(aWebApp);
     }
 
 
