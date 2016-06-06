@@ -8,6 +8,7 @@ import com.kercer.kercore.util.KCUtilText;
 import com.kercer.kerdb.KCDB;
 import com.kercer.kerdb.KerDB;
 import com.kercer.kerdb.jnibridge.KCIterator;
+import com.kercer.kerdb.jnibridge.KCSnapshot;
 import com.kercer.kerdb.jnibridge.exception.KCDBException;
 import com.kercer.kernet.uri.KCURI;
 
@@ -181,6 +182,7 @@ public class KCWebAppManager
     {
         try
         {
+            KCSnapshot snapshot = mDB.createSnapshot();
             KCIterator iterator = mDB.iterator();
             for (iterator.seekToFirst(); iterator.isValid(); iterator.next())
             {
@@ -190,6 +192,7 @@ public class KCWebAppManager
                 mWebApps.put(webApp.mID, webApp);
             }
             iterator.close();
+            snapshot.close();
 
         }
         catch (KCDBException e)
