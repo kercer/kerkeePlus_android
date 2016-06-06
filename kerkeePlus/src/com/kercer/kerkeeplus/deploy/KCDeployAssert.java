@@ -30,8 +30,9 @@ public class KCDeployAssert
         try
         {
             File fileDir = new File(mDeploy.getRootPath());
-            KCUtilFile.deleteRecyle(fileDir);
-            assetTool.createDir(fileDir);
+            if (!fileDir.exists()) assetTool.createDir(fileDir);
+            if (tmpDesFile.exists())
+                KCUtilFile.deleteRecyle(tmpDesFile);
             assetTool.copyAssetFile(mAssetFileName, tmpDesFile.getAbsolutePath());
             KCLog.e("KCDeploy", "KCDeploy: h5 copy end...");
         }

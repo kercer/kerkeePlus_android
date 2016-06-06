@@ -1,7 +1,11 @@
 package com.kercer.kerkeeplus.deploy;
 
+import com.kercer.kercore.debug.KCLog;
 import com.kercer.kerkee.manifest.KCManifestObject;
 import com.kercer.kernet.uri.KCURI;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 
@@ -26,10 +30,14 @@ public class KCWebApp
         mDekSelf = new KCDek(aRootPath);
         mDekSelf.mManifestUri = aManifestUri;
         mDekSelf.mWebApp = this;
-        if (aManifestUri != null)
+        if (aManifestUri != null && aManifestUri.getPath() != null)
         {
             mDekSelf.mManifestFileName = aManifestUri.getLastPathSegment();
         }
+    }
+
+    private KCWebApp()
+    {
     }
 
     public String getVersion()
@@ -59,4 +67,42 @@ public class KCWebApp
     }
 
 
+    public String toString()
+    {
+        JSONObject object = new JSONObject();
+        try
+        {
+            object.put("id", mID);
+            String manifestUrl = mManifestURI != null ? mManifestURI.toString() : "";
+            object.put("manifestUrl", manifestUrl==null ? "" : manifestUrl);
+            object.put("rootPath",mRootPath != null ? mRootPath.getAbsolutePath() : "");
+        }
+        catch (JSONException e)
+        {
+            KCLog.e(e);
+        }
+        return object.toString();
+    }
+
+    public static KCWebApp toObject(JSONObject aJSON)
+    {
+        try
+        {
+            if (aJSON != null)
+            {
+                int id = aJSON.getInt("id");
+                String manifestUrl = aJSON.getString("manifestUrl");
+                String rootPath = aJSON.getString("rootPath");
+
+                KCURI manifestURI = KCURI.parse(manifestUrl);
+                File rootPathFile = new File(rootPath);
+                return new KCWebApp(id, rootPathFile, manifestURI);
+            }
+        }
+        catch (Exception e)
+        {
+            KCLog.e(e);
+        }
+        return null;
+    }
 }

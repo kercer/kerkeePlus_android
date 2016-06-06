@@ -9,6 +9,7 @@ android {
         targetSdkVersion 19
         versionCode 1
         versionName "1.0"
+        resValue "string", "ker__authority", "com.kercer.kerkeePlus"
     }
 
     buildTypes {
