@@ -185,8 +185,8 @@ public class KCWebAppManager
             for (iterator.seekToFirst(); iterator.isValid(); iterator.next())
             {
 //                String key = new String(iterator.getKey());
-                String value = new String(iterator.getValue());
-                KCWebApp webApp =  KCWebApp.toObject(new JSONObject(value));
+//                String value = new String(iterator.getValue());
+                KCWebApp webApp =  KCWebApp.webApp(iterator.getValue());
                 mWebApps.put(webApp.mID, webApp);
             }
             iterator.close();
@@ -206,7 +206,8 @@ public class KCWebAppManager
     {
         try
         {
-            mDB.putString(String.valueOf(aWebApp.getID()), aWebApp.toString());
+//            mDB.putString(String.valueOf(aWebApp.getID()), aWebApp.toString());
+            mDB.putDBObject(String.valueOf(aWebApp.getID()), aWebApp);
         }
         catch (KCDBException e)
         {

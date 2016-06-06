@@ -1,6 +1,7 @@
 package com.kercer.kerkeeplus.deploy;
 
 import com.kercer.kercore.debug.KCLog;
+import com.kercer.kerdb.KCDBObject;
 import com.kercer.kerkee.manifest.KCManifestObject;
 import com.kercer.kernet.uri.KCURI;
 
@@ -12,12 +13,12 @@ import java.io.File;
 /**
  * Created by zihong on 16/3/18.
  */
-public class KCWebApp
+public class KCWebApp implements KCDBObject
 {
     //If ID = 0, that means the Webapp that contains all of the Webapps, and these all webapps in a file
     protected int mID;
     protected KCURI mManifestURI; //webapp's root manifest url
-//    public String mFileHash;
+    //    public String mFileHash;
     protected File mRootPath;
     private KCDek mDekSelf;
 
@@ -40,14 +41,18 @@ public class KCWebApp
     {
     }
 
+    public static KCWebApp webApp(byte[] aBytes)
+    {
+        return (KCWebApp)new KCWebApp().toObject(aBytes);
+    }
+
     public String getVersion()
     {
         String version = null;
         if (mDekSelf != null)
         {
             KCManifestObject manifestObject = mDekSelf.loadLocalManifest();
-            if (manifestObject != null)
-                version = manifestObject.getVersion();
+            if (manifestObject != null) version = manifestObject.getVersion();
         }
         return version;
     }
@@ -56,6 +61,7 @@ public class KCWebApp
     {
         return mID;
     }
+
     public File getRootPath()
     {
         return mRootPath;
@@ -74,8 +80,8 @@ public class KCWebApp
         {
             object.put("id", mID);
             String manifestUrl = mManifestURI != null ? mManifestURI.toString() : "";
-            object.put("manifestUrl", manifestUrl==null ? "" : manifestUrl);
-            object.put("rootPath",mRootPath != null ? mRootPath.getAbsolutePath() : "");
+            object.put("manifestUrl", manifestUrl == null ? "" : manifestUrl);
+            object.put("rootPath", mRootPath != null ? mRootPath.getAbsolutePath() : "");
         }
         catch (JSONException e)
         {
@@ -84,25 +90,40 @@ public class KCWebApp
         return object.toString();
     }
 
-    public static KCWebApp toObject(JSONObject aJSON)
+
+    @Override
+    public byte[] toBytes()
+    {
+        return toString().getBytes();
+    }
+
+    @Override
+    public KCDBObject toObject(byte[] aBytes)
     {
         try
         {
-            if (aJSON != null)
+            if (aBytes != null)
             {
-                int id = aJSON.getInt("id");
-                String manifestUrl = aJSON.getString("manifestUrl");
-                String rootPath = aJSON.getString("rootPath");
+                String jsonString = new String(aBytes);
+                JSONObject objectJSON = new JSONObject(jsonString);
+
+                int id = objectJSON.getInt("id");
+                String manifestUrl = objectJSON.getString("manifestUrl");
+                String rootPath = objectJSON.getString("rootPath");
 
                 KCURI manifestURI = KCURI.parse(manifestUrl);
                 File rootPathFile = new File(rootPath);
-                return new KCWebApp(id, rootPathFile, manifestURI);
+
+                this.mID = id;
+                this.mManifestURI = manifestURI;
+                this.mRootPath = rootPathFile;
             }
         }
         catch (Exception e)
         {
             KCLog.e(e);
         }
-        return null;
+
+        return this;
     }
 }
