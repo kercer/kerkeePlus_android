@@ -202,7 +202,7 @@ public class KCWebAppManager
         }
     }
 
-    private synchronized void updateToDB(KCWebApp aWebApp)
+    private void updateToDB(KCWebApp aWebApp)
     {
         try
         {
