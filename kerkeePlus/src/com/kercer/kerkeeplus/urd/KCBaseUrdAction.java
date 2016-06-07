@@ -61,6 +61,7 @@ public abstract class KCBaseUrdAction<T extends FragmentActivity> implements IUr
      * @param intentFlags
      */
     public void execAction(int... intentFlags) {
+        kcUrdMetaData.initFlags();
         if (!shouldRedirect(kcUrdMetaData)) {
             if (intentFlags != null && intentFlags.length > 0)
                 kcUrdMetaData.initIntentFlags(intentFlags);
