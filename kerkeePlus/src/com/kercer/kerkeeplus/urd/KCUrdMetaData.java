@@ -78,7 +78,6 @@ public class KCUrdMetaData {
         initUrdString(action, path, params);
         initPath();
         initIntent(clazz);
-        initFlags();
     }
 
     /**
@@ -172,7 +171,7 @@ public class KCUrdMetaData {
         }
     }
 
-    private void initFlags() {
+    void initFlags() {
         if (intent != null) {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
