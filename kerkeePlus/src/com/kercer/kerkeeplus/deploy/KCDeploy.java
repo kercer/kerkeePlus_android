@@ -64,7 +64,7 @@ public class KCDeploy
     {
         if (aSrcFile.exists())
         {
-            File tmpZipFile = mDeployFlow.decodeFile(aSrcFile);
+            File tmpZipFile = mDeployFlow.decodeFile(aSrcFile, aDek);
             if (tmpZipFile != null && tmpZipFile.exists())
             {
                 File dirDek = aDek.mRootPath;
@@ -84,7 +84,7 @@ public class KCDeploy
                 {
                     KCUtilFile.deleteRecyle(dirDek);
                     KCLog.e(e);
-                    mDeployFlow.onDeployError(new KCDeployError(e));
+                    mDeployFlow.onDeployError(new KCDeployError(e), aDek);
                 }
                 KCUtilFile.deleteRecyle(tmpZipFile);
 
@@ -92,11 +92,11 @@ public class KCDeploy
 
                 return true;
             }
-            mDeployFlow.onDeployError(new KCDeployError("zip file is null or the file is not exist"));
+            mDeployFlow.onDeployError(new KCDeployError("zip file is null or the file is not exist"), aDek);
         }
         else
         {
-            mDeployFlow.onDeployError(new KCDeployError(aSrcFile.getAbsolutePath()+": is not exists"));
+            mDeployFlow.onDeployError(new KCDeployError(aSrcFile.getAbsolutePath()+": is not exists"), aDek);
             Log.e("decodeDek", aSrcFile.getAbsolutePath()+": is not exists");
         }
 

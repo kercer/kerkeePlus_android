@@ -10,7 +10,7 @@ import java.io.File;
 public class KCDeployFlowDefault implements KCDeployFlow
 {
     @Override
-    public File decodeFile(File aSrcFile)
+    public File decodeFile(File aSrcFile, KCDek aDek)
     {
         File dirPath = KCUtilFile.getPathWithoutFilename(aSrcFile);
         File tmpZipFile = new File(dirPath, "tmp.zip");
@@ -24,7 +24,7 @@ public class KCDeployFlowDefault implements KCDeployFlow
     }
 
     @Override
-    public void onDeployError(KCDeployError aError)
+    public void onDeployError(KCDeployError aError, KCDek aDek)
     {
     }
 

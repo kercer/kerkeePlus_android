@@ -218,7 +218,7 @@ public class KCDeployInstall
                     @Override
                     public void onError(long downloadedBytes, Throwable e)
                     {
-                        mDeploy.mDeployFlow.onDeployError(new KCDeployError(e));
+                        mDeploy.mDeployFlow.onDeployError(new KCDeployError(e), aDek);
                     }
                 };
 

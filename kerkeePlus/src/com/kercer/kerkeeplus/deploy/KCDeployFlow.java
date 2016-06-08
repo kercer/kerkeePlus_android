@@ -7,7 +7,7 @@ import java.io.File;
  */
 public interface KCDeployFlow
 {
-    File decodeFile(File aSrcFile);
+    File decodeFile(File aSrcFile, KCDek aDek);
     void onComplete(KCDek aDek);
-    void onDeployError(KCDeployError aError);
+    void onDeployError(KCDeployError aError, KCDek aDek);
 }

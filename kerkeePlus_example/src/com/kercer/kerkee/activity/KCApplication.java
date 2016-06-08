@@ -26,7 +26,7 @@ public class KCApplication extends Application {
     private void deployWebApp(){
         KCWebAppManager kcWebAppManager = new KCWebAppManager(this, "html.zip", new KCDeployFlow() {
             @Override
-            public File decodeFile(File aSrcFile) {
+            public File decodeFile(File aSrcFile, KCDek aDek) {
                 return aSrcFile;
             }
 
@@ -36,7 +36,7 @@ public class KCApplication extends Application {
             }
 
             @Override
-            public void onDeployError(KCDeployError aError) {
+            public void onDeployError(KCDeployError aError, KCDek aDek) {
 
             }
         });
