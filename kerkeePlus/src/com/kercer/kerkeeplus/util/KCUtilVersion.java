@@ -2,6 +2,11 @@ package com.kercer.kerkeeplus.util;
 
 import com.kercer.kercore.debug.KCLog;
 
+/**
+ * Created by zihong on 16/6/8.
+ *
+ * version tools
+ */
 public class KCUtilVersion
 {
 
