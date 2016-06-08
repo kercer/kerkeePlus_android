@@ -21,6 +21,7 @@ public class KCWebApp implements KCDBObject
     //    public String mFileHash;
     protected File mRootPath;
     private KCDek mDekSelf;
+    private Object mTag;
 
     public KCWebApp(int aID, File aRootPath, KCURI aManifestUri)
     {
@@ -44,6 +45,16 @@ public class KCWebApp implements KCDBObject
     public static KCWebApp webApp(byte[] aBytes)
     {
         return (KCWebApp)new KCWebApp().toObject(aBytes);
+    }
+
+    public void setTag(Object aObject)
+    {
+        mTag = aObject;
+    }
+
+    public Object getTag()
+    {
+        return mTag;
     }
 
     public String getVersion()
