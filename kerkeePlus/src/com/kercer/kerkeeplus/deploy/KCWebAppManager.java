@@ -76,16 +76,16 @@ public class KCWebAppManager
             public void run()
             {
                 loadWebAppsFromDB(aContext);
-
-                //upgrade from Assert if app is first lauch after version changed and local has not html dir
-                //don't compare RequiredVersion
-                if (mDeploy.getMainBundle().isFirstLaunchAfterVersionChanged() || !mDeploy.checkHtmlDir(aContext))
-                {
-                    mDeployAssert.deployFromAssert(aContext);
-                    loadWebappsCfg();
-                }
             }
         });
+
+        //upgrade from Assert if app is first lauch after version changed and local has not html dir
+        //don't compare RequiredVersion
+        if (mDeploy.getMainBundle().isFirstLaunchAfterVersionChanged() || !mDeploy.checkHtmlDir(aContext))
+        {
+            mDeployAssert.deployFromAssert(aContext);
+            loadWebappsCfg();
+        }
 
     }
 
