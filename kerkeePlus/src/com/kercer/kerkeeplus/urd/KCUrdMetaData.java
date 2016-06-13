@@ -124,7 +124,7 @@ public class KCUrdMetaData {
                 //如果是相对路径
                 if (TextUtils.isEmpty(kcuri.getScheme())) {
                     isRelativePath = true;
-                    url = "file://" + webViewPath.getResRootPath() + "/" + getPath();
+                    url = getRootFilePath() + "/" + getPath();
                     path = url;
                 } else {
                     isRelativePath = false;
