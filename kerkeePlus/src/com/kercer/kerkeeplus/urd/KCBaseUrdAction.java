@@ -131,7 +131,7 @@ public abstract class KCBaseUrdAction<T extends FragmentActivity> implements IUr
 
     public String getRootFilePath() {
         return KCUrdEnv.isRemoteDebugEnable() ?
-                KCUrdEnv.getRemoteDebugUrl() + defaultH5Path() :
+                KCUrdEnv.getRemoteDebugUrl() + "/html" :
                 "file://" + KCUrdMetaData.getWebViewPath().getResRootPath();
     }
 
