@@ -1,7 +1,6 @@
 package com.kercer.kerkeeplus.deploy;
 
 import com.kercer.kercore.debug.KCLog;
-import com.kercer.kerdb.KCDBObject;
 import com.kercer.kerkee.manifest.KCManifestObject;
 import com.kercer.kernet.uri.KCURI;
 
@@ -13,7 +12,7 @@ import java.io.File;
 /**
  * Created by zihong on 16/3/18.
  */
-public class KCWebApp implements KCDBObject
+public class KCWebApp //implements KCDBObject
 {
     //If ID = 0, that means the Webapp that contains all of the Webapps, and these all webapps in a file
     protected int mID;
@@ -42,10 +41,10 @@ public class KCWebApp implements KCDBObject
     {
     }
 
-    public static KCWebApp webApp(byte[] aBytes)
-    {
-        return (KCWebApp)new KCWebApp().toObject(aBytes);
-    }
+//    public static KCWebApp webApp(byte[] aBytes)
+//    {
+//        return (KCWebApp)new KCWebApp().toObject(aBytes);
+//    }
 
     public void setTag(Object aObject)
     {
@@ -102,39 +101,39 @@ public class KCWebApp implements KCDBObject
     }
 
 
-    @Override
-    public byte[] toBytes()
-    {
-        return toString().getBytes();
-    }
-
-    @Override
-    public KCDBObject toObject(byte[] aBytes)
-    {
-        try
-        {
-            if (aBytes != null)
-            {
-                String jsonString = new String(aBytes);
-                JSONObject objectJSON = new JSONObject(jsonString);
-
-                int id = objectJSON.getInt("id");
-                String manifestUrl = objectJSON.getString("manifestUrl");
-                String rootPath = objectJSON.getString("rootPath");
-
-                KCURI manifestURI = KCURI.parse(manifestUrl);
-                File rootPathFile = new File(rootPath);
-
-                this.mID = id;
-                this.mManifestURI = manifestURI;
-                this.mRootPath = rootPathFile;
-            }
-        }
-        catch (Exception e)
-        {
-            KCLog.e(e);
-        }
-
-        return this;
-    }
+//    @Override
+//    public byte[] toBytes()
+//    {
+//        return toString().getBytes();
+//    }
+//
+//    @Override
+//    public KCDBObject toObject(byte[] aBytes)
+//    {
+//        try
+//        {
+//            if (aBytes != null)
+//            {
+//                String jsonString = new String(aBytes);
+//                JSONObject objectJSON = new JSONObject(jsonString);
+//
+//                int id = objectJSON.getInt("id");
+//                String manifestUrl = objectJSON.getString("manifestUrl");
+//                String rootPath = objectJSON.getString("rootPath");
+//
+//                KCURI manifestURI = KCURI.parse(manifestUrl);
+//                File rootPathFile = new File(rootPath);
+//
+//                this.mID = id;
+//                this.mManifestURI = manifestURI;
+//                this.mRootPath = rootPathFile;
+//            }
+//        }
+//        catch (Exception e)
+//        {
+//            KCLog.e(e);
+//        }
+//
+//        return this;
+//    }
 }
