@@ -54,7 +54,7 @@ public class KCUrdActivity extends KCBaseActivity {
                  * 跳转到个人中心，使用相对路径,相对路径需要,使用urlencode一下
                  */
                 try {
-                    KCUriDispatcher.dispatcher(UrdSample.userCenterUrdStr + "/" + URLEncoder.encode("usercenter.html","utf-8"));
+                    KCUriDispatcher.dispatcher(UrdSample.userCenterUrdStr + "/" + URLEncoder.encode("modules/test/test.html","utf-8"));
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }

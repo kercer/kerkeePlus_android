@@ -38,6 +38,6 @@ public class UserCenterUrd extends KCBaseUrdAction<UserCenterActivity> {
 
     @Override
     public String defaultH5Path() {
-        return "/usercenter.html";
+        return "/modules/test/test.html";
     }
 }
