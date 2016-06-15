@@ -5,6 +5,11 @@ import android.content.Context;
 import com.kercer.kercore.debug.KCLog;
 import com.kercer.kercore.task.KCTaskExecutor;
 import com.kercer.kercore.util.KCUtilText;
+import com.kercer.kerdb.KCDB;
+import com.kercer.kerdb.KerDB;
+import com.kercer.kerdb.jnibridge.KCIterator;
+import com.kercer.kerdb.jnibridge.KCSnapshot;
+import com.kercer.kerdb.jnibridge.exception.KCDBException;
 import com.kercer.kernet.uri.KCURI;
 
 import org.json.JSONArray;
@@ -32,8 +37,8 @@ public class KCWebAppManager
     private KCDeployAssert mDeployAssert = null;
     private KCDeployInstall mDeployInstall = null;
     private Map<Integer, KCWebApp> mWebApps = new HashMap<Integer, KCWebApp>();
-    private final static String kDBName = "webapps";
-//    KCDB mDB;
+    private final static String kDBName = "WebappsDB";
+    KCDB mDB;
 
     public KCWebAppManager(Context aContext, KCDeployFlow aDeployFlow)
     {
@@ -56,23 +61,23 @@ public class KCWebAppManager
         if (mDeployInstall == null) mDeployInstall = new KCDeployInstall(mDeploy);
 
 
-//        try
-//        {
-//            mDB = KerDB.open(aContext, kDBName);
-//        }
-//        catch (KCDBException e)
-//        {
-//            KCLog.e(e);
-//        }
-//
-//        loadWebAppsFromDB(aContext);
+        try
+        {
+            mDB = KerDB.open(aContext, kDBName);
+        }
+        catch (KCDBException e)
+        {
+            KCLog.e(e);
+        }
+
+        loadWebAppsFromDB(aContext);
 
         //upgrade from Assert if app is first lauch after version changed and local has not html dir
         //don't compare RequiredVersion
         if (mDeploy.getMainBundle().isFirstLaunchAfterVersionChanged() || !mDeploy.checkHtmlDir(aContext))
         {
             mDeployAssert.deployFromAssert(aContext);
-//            loadWebappsCfg();
+            loadWebappsCfg();
         }
 
     }
@@ -166,44 +171,44 @@ public class KCWebAppManager
         }
     }
 
-//    private void loadWebAppsFromDB(Context aContext)
-//    {
-//        try
-//        {
-//            KCSnapshot snapshot = mDB.createSnapshot();
-//            KCIterator iterator = mDB.iterator();
-//            for (iterator.seekToFirst(); iterator.isValid(); iterator.next())
-//            {
-////                String key = new String(iterator.getKey());
-////                String value = new String(iterator.getValue());
-//                KCWebApp webApp =  KCWebApp.webApp(iterator.getValue());
-//                mWebApps.put(webApp.mID, webApp);
-//            }
-//            iterator.close();
-//            snapshot.close();
-//
-//        }
-//        catch (KCDBException e)
-//        {
-//            KCLog.e(e);
-//        }
-//        catch (Exception e)
-//        {
-//            KCLog.e(e);
-//        }
-//    }
+    private void loadWebAppsFromDB(Context aContext)
+    {
+        try
+        {
+            KCSnapshot snapshot = mDB.createSnapshot();
+            KCIterator iterator = mDB.iterator();
+            for (iterator.seekToFirst(); iterator.isValid(); iterator.next())
+            {
+//                String key = new String(iterator.getKey());
+//                String value = new String(iterator.getValue());
+                KCWebApp webApp =  KCWebApp.webApp(iterator.getValue());
+                mWebApps.put(webApp.mID, webApp);
+            }
+            iterator.close();
+            snapshot.close();
+
+        }
+        catch (KCDBException e)
+        {
+            KCLog.e(e);
+        }
+        catch (Exception e)
+        {
+            KCLog.e(e);
+        }
+    }
 
     private void updateToDB(KCWebApp aWebApp)
     {
-//        try
-//        {
-////            mDB.putString(String.valueOf(aWebApp.getID()), aWebApp.toString());
-//            mDB.putDBObject(String.valueOf(aWebApp.getID()), aWebApp);
-//        }
-//        catch (KCDBException e)
-//        {
-//            KCLog.e(e);
-//        }
+        try
+        {
+//            mDB.putString(String.valueOf(aWebApp.getID()), aWebApp.toString());
+            mDB.putDBObject(String.valueOf(aWebApp.getID()), aWebApp);
+        }
+        catch (KCDBException e)
+        {
+            KCLog.e(e);
+        }
     }
 
     private void updateToDBAsyn(final KCWebApp aWebApp)
@@ -253,10 +258,10 @@ public class KCWebAppManager
         if (mDeployInstall != null) mDeployInstall.installWebApp(aWebApp);
     }
 
-//    @Override
-//    protected void finalize() throws Throwable
-//    {
-//        if (mDB != null) mDB.close();
-//    }
+    @Override
+    protected void finalize() throws Throwable
+    {
+        if (mDB != null) mDB.close();
+    }
 
 }
