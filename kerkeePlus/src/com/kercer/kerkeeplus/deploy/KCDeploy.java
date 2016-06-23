@@ -69,7 +69,6 @@ public class KCDeploy
             {
                 File dirDek = aDek.mRootPath;
                 KCUtilFile.deleteRecyle(dirDek);
-                dirDek.mkdirs();
 
                 try
                 {
@@ -78,7 +77,6 @@ public class KCDeploy
                         dirDek.mkdirs();
                     }
                     KCZip.unZipToDir(tmpZipFile, dirDek);
-                    tmpZipFile.delete();
                 }
                 catch (Exception e)
                 {
@@ -86,7 +84,10 @@ public class KCDeploy
                     KCLog.e(e);
                     mDeployFlow.onDeployError(new KCDeployError(e), aDek);
                 }
-                KCUtilFile.deleteRecyle(tmpZipFile);
+                finally
+                {
+                    KCUtilFile.deleteRecyle(tmpZipFile);
+                }
 
                 mDeployFlow.onComplete(aDek);
 
