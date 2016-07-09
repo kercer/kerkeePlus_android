@@ -231,7 +231,7 @@ public class KCWebAppManager
         {
             KCWebApp webapp = (KCWebApp) iterator.next();
             addWebApp(webapp);
-            updateToDBAsyn(webapp);
+//            updateToDBAsyn(webapp);
         }
     }
 
