@@ -14,7 +14,7 @@ import java.io.File;
  */
 public class KCApplication extends Application {
     public static Application instance;
-    KCWebAppManager kcWebAppManager;
+    KCWebAppManager mWebAppManager;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -24,20 +24,25 @@ public class KCApplication extends Application {
         instance = this;
     }
 
-    private void deployWebApp(){
-        kcWebAppManager = new KCWebAppManager(this, "html.zip", new KCDeployFlow() {
+    private void deployWebApp()
+    {
+        mWebAppManager = new KCWebAppManager(this, "html.zip", new KCDeployFlow()
+        {
             @Override
-            public File decodeFile(File aSrcFile, KCDek aDek) {
+            public File decodeFile(File aSrcFile, KCDek aDek)
+            {
                 return aSrcFile;
             }
 
             @Override
-            public void onComplete(KCDek aDek) {
+            public void onComplete(KCDek aDek)
+            {
 
             }
 
             @Override
-            public void onDeployError(KCDeployError aError, KCDek aDek) {
+            public void onDeployError(KCDeployError aError, KCDek aDek)
+            {
 
             }
         });

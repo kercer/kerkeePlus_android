@@ -84,13 +84,10 @@ public class KCDeployInstall
 //                    JSONObject jsonObject = new JSONObject(aResult);
 //                    JSONArray jsonArray = jsonObject.getJSONArray("list");
 //                    JSONObject jsWebapp =(JSONObject)jsonArray.get(0);
-//                    KCWebApp webApp = new KCWebApp();
-//                    webApp.mManifestUrl = jsWebapp.getString("manifestUrl");
-//                    webApp.mID = jsWebapp.getInt("ID");
-//                    webApp.mRootPath = new File(mDeploy.getResRootPath());
+//                    KCWebApp webApp = new KCWebApp(jsWebapp.getInt("ID"), new File(mDeploy.getResRootPath()), KCURI.parse(jsWebapp.getString("manifestUrl")));
 //                    upgradeWebApp(webApp);
 //                }
-//                catch (JSONException e)
+//                catch (Exception e)
 //                {
 //                    e.printStackTrace();
 //                }
