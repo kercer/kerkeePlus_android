@@ -15,6 +15,7 @@ import java.util.HashMap;
  */
 class KCUriRegister implements IUriRegister {
     private HashMap<String, IUriAction> actionsWithKey = new HashMap<String, IUriAction>();
+    private HashMap<String, Class> actionsClassWithKey = new HashMap<String, Class>();
     private IUriAction defaultUrdAction;
 
     /**
@@ -62,6 +63,25 @@ class KCUriRegister implements IUriRegister {
     }
 
     /**
+     * 通过class方式注册，降低urd过多时的初始化时间，对象延迟创建（什么时候用什么时候创建）
+     * @param <T> 实现IUriAction的类
+     * @return 是否注册成功
+     */
+    public <T extends IUriAction> boolean registerAction(final String key,final Class<T> urdActionClass){
+        if (!TextUtils.isEmpty(key) && urdActionClass != null) {
+            KCTaskExecutor.runTaskOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    actionsClassWithKey.put(key.toLowerCase(), urdActionClass);
+                    actionsWithKey.put(key.toLowerCase(), null);
+                }
+            });
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * 取消一个urd action
      *
      * @param key key值
@@ -75,6 +95,7 @@ class KCUriRegister implements IUriRegister {
                 @Override
                 public void run() {
                     actionsWithKey.remove(key.toLowerCase());
+                    actionsClassWithKey.remove(key.toLowerCase());
                 }
             });
             return true;
@@ -91,17 +112,30 @@ class KCUriRegister implements IUriRegister {
     @Override
     public boolean dispatcher(final KCURI urlData, final Object... objects) {
         boolean isSupported = false;
+        if (!TextUtils.isEmpty(urlData.getHost())&&
+                actionsWithKey.containsKey(urlData.getHost().toLowerCase())&&
+                actionsWithKey.get(urlData.getHost().toLowerCase()) == null&&
+                actionsClassWithKey.containsKey(urlData.getHost().toLowerCase())){
+            try {
+                actionsWithKey.put(urlData.getHost().toLowerCase(),
+                        (IUriAction) actionsClassWithKey.get(urlData.getHost().toLowerCase()).newInstance());
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
         /**
          * 匹配注册的urd
          */
         if (!TextUtils.isEmpty(urlData.getHost()) &&
                 actionsWithKey.containsKey(urlData.getHost().toLowerCase()) &&
-                actionsWithKey.get(urlData.getHost()).accept(urlData.getHost(), urlData.getPath(), urlData.getQueries())) {
+                actionsWithKey.get(urlData.getHost().toLowerCase()).accept(urlData.getHost(), urlData.getPath(), urlData.getQueries())) {
             isSupported = true;
             KCTaskExecutor.runTaskOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    actionsWithKey.get(urlData.getHost()).invokeAction(urlData.getQueries(), objects);
+                    actionsWithKey.get(urlData.getHost().toLowerCase()).invokeAction(urlData.getQueries(), objects);
                 }
             });
         }

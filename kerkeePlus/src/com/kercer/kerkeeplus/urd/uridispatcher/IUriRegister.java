@@ -21,6 +21,8 @@ public interface IUriRegister {
      */
     boolean registerAction(String key,IUriAction urdAction);
 
+    <T extends IUriAction> boolean registerAction(final String key,final Class<T> urdActionClass);
+
     /**
      * 取消一个urd
      * @param key key值
