@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
 
-version = '0.1.15'
+version = '0.1.16'
 android {
     compileSdkVersion 21
     buildToolsVersion "23.0.1"
