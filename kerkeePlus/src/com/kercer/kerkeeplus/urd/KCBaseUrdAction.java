@@ -20,6 +20,8 @@ import java.util.List;
 public abstract class KCBaseUrdAction<T extends FragmentActivity> implements IUriAction {
     public static final String EXTRA_LOAD_URL = KCH5BaseActivity.EXTRA_LOAD_URL;
     public static final String AFTER_URD = KCBaseActivity.AFTER_URD;
+    //urd 透传给h5的参数
+    public static final String URD_DATA = "urdData";
     private Class<T> clazz;
     protected KCUrdMetaData kcUrdMetaData;
 

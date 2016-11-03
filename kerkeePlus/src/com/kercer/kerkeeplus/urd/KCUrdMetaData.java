@@ -2,6 +2,7 @@ package com.kercer.kerkeeplus.urd;
 
 import android.app.Application;
 import android.content.Intent;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -212,7 +213,19 @@ public class KCUrdMetaData {
     protected String getDefaultUrl() {
         if (TextUtils.isEmpty(defaultUrl))
             return "";
-        return getRootFilePath() + defaultUrl;
+        String urdData = "";
+        if (params!=null && params.size()>0){
+            for (KCNameValuePair pair:params){
+                if (pair.mKey.equalsIgnoreCase(KCBaseUrdAction.URD_DATA))
+                    urdData = pair.mValue;
+            }
+        }
+        String url = getRootFilePath() + defaultUrl;
+        Uri.Builder builder = Uri.parse(url).buildUpon();
+        if (!TextUtils.isEmpty(urdData)) {
+            builder.appendQueryParameter(KCBaseUrdAction.URD_DATA, urdData);
+        }
+        return builder.toString();
     }
 
     /**

@@ -42,7 +42,7 @@ public class KCUrdActivity extends KCBaseActivity {
                 /**
                  * 分发个人中心页面,urd
                  */
-                KCUriDispatcher.dispatcher(UrdSample.userCenterUrdStr);
+                KCUriDispatcher.dispatcher(UrdSample.userCenterUrdStr + "?urdData=ksldjflsd");
             }
         });
 
