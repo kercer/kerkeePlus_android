@@ -3,6 +3,7 @@ package com.kercer.kerkeeplus.urd;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 
 import com.kercer.kerkeeplus.base.KCBaseActivity;
 import com.kercer.kerkeeplus.base.KCH5BaseActivity;
@@ -40,7 +41,7 @@ public abstract class KCBaseUrdAction<T extends FragmentActivity> implements IUr
     @Override
     public boolean accept(String action, String path, List<KCNameValuePair> params) {
         kcUrdMetaData.resetData();
-        kcUrdMetaData.setDefaultUrl(KCUrdEnv.isRemoteDebugEnable()?getDebugH5Path():defaultH5Path());
+        kcUrdMetaData.setDefaultUrl(KCUrdEnv.isRemoteDebugEnable()?(TextUtils.isEmpty(getDebugH5Path())?defaultH5Path():getDebugH5Path()):defaultH5Path());
         kcUrdMetaData.setRootFilePath(getRootFilePath());
         kcUrdMetaData.setScheme(getScheme());
         kcUrdMetaData.initUrdData(action, path, params, clazz);
