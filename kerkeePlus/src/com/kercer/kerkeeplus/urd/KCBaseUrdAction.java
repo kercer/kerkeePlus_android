@@ -25,7 +25,7 @@ public abstract class KCBaseUrdAction<T extends FragmentActivity> implements IUr
     public static final String URD_DATA = "urdData";
     private Class<T> clazz;
     protected KCUrdMetaData kcUrdMetaData;
-
+    protected int requestCode = 10001;
     public KCBaseUrdAction() {
         kcUrdMetaData = new KCUrdMetaData(KCUrdEnv.getApplication());
         initSubClassInfo();
@@ -56,12 +56,16 @@ public abstract class KCBaseUrdAction<T extends FragmentActivity> implements IUr
      */
     @Override
     public final void invokeAction(List<KCNameValuePair> params, Object... objects){
-        if (objects!=null && objects.length>0 && objects[0] instanceof FragmentActivity){
-            kcUrdMetaData.setActivity((FragmentActivity)objects[0]);
-            execActionForResult((FragmentActivity)objects[0],10001);
-        }else{
-            execAction();
+        if (objects != null && objects.length > 0 && objects[0] instanceof FragmentActivity)
+            kcUrdMetaData.setActivity((FragmentActivity) objects[0]);
+        if (!shouldRedirect(kcUrdMetaData)) {
+            if (kcUrdMetaData.getActivity()!=null) {
+                execActionForResult(kcUrdMetaData.getActivity(), requestCode);
+            } else {
+                execAction();
+            }
         }
+        kcUrdMetaData.resetData();
     }
 
 
@@ -72,14 +76,11 @@ public abstract class KCBaseUrdAction<T extends FragmentActivity> implements IUr
      */
     public void execAction(int... intentFlags) {
         kcUrdMetaData.initFlags();
-        if (!shouldRedirect(kcUrdMetaData)) {
-            if (intentFlags != null && intentFlags.length > 0)
-                kcUrdMetaData.initIntentFlags(intentFlags);
-            Intent intent = kcUrdMetaData.getIntent();
-            onBuildIntent(intent);
-            KCUrdEnv.getApplication().startActivity(intent);
-        }
-        kcUrdMetaData.resetData();
+        if (intentFlags != null && intentFlags.length > 0)
+            kcUrdMetaData.initIntentFlags(intentFlags);
+        Intent intent = kcUrdMetaData.getIntent();
+        onBuildIntent(intent);
+        KCUrdEnv.getApplication().startActivity(intent);
     }
 
     /**
@@ -91,14 +92,11 @@ public abstract class KCBaseUrdAction<T extends FragmentActivity> implements IUr
      * @param intentFlags intentFlags
      */
     public void execActionForResult(Activity activity, int requestCode, int... intentFlags) {
-        if (!shouldRedirect(kcUrdMetaData)) {
-            if (intentFlags != null && intentFlags.length > 0)
-                kcUrdMetaData.initIntentFlags(intentFlags);
-            Intent intent = kcUrdMetaData.getIntent();
-            onBuildIntent(intent);
-            activity.startActivityForResult(intent, requestCode);
-        }
-        kcUrdMetaData.resetData();
+        if (intentFlags != null && intentFlags.length > 0)
+            kcUrdMetaData.initIntentFlags(intentFlags);
+        Intent intent = kcUrdMetaData.getIntent();
+        onBuildIntent(intent);
+        activity.startActivityForResult(intent, requestCode);
     }
 
 
