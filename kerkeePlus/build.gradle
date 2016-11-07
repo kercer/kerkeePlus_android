@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
 
-version = '0.1.17'
+version = '0.1.18'
 android {
     compileSdkVersion 21
     buildToolsVersion "23.0.1"
@@ -60,5 +60,5 @@ dependencies {
 //    compile project(':..:kerkee_android:kerkee')
 }
 
-//apply from: 'release_maven.gradle'
+apply from: 'release_maven.gradle'
 
