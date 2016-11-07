@@ -40,7 +40,7 @@ public abstract class KCBaseUrdAction<T extends FragmentActivity> implements IUr
     @Override
     public boolean accept(String action, String path, List<KCNameValuePair> params) {
         kcUrdMetaData.resetData();
-        kcUrdMetaData.setDefaultUrl(defaultH5Path());
+        kcUrdMetaData.setDefaultUrl(KCUrdEnv.isRemoteDebugEnable()?getDebugH5Path():defaultH5Path());
         kcUrdMetaData.setRootFilePath(getRootFilePath());
         kcUrdMetaData.setScheme(getScheme());
         kcUrdMetaData.initUrdData(action, path, params, clazz);
@@ -51,10 +51,17 @@ public abstract class KCBaseUrdAction<T extends FragmentActivity> implements IUr
      * 此函数内部用于执行跳转指令,{@link #execAction(int...)}和{@link #execActionForResult(Activity, int, int...)}
      *
      * @param params  从协议中解析出来的参数
-     * @param objects
+     * @param objects 如果不为空，默认第一项为activity
      */
     @Override
-    public abstract void invokeAction(List<KCNameValuePair> params, Object... objects);
+    public final void invokeAction(List<KCNameValuePair> params, Object... objects){
+        if (objects!=null && objects.length>0 && objects[0] instanceof FragmentActivity){
+            kcUrdMetaData.setActivity((FragmentActivity)objects[0]);
+            execActionForResult((FragmentActivity)objects[0],10001);
+        }else{
+            execAction();
+        }
+    }
 
 
     /**
@@ -71,6 +78,7 @@ public abstract class KCBaseUrdAction<T extends FragmentActivity> implements IUr
             onBuildIntent(intent);
             KCUrdEnv.getApplication().startActivity(intent);
         }
+        kcUrdMetaData.resetData();
     }
 
     /**
@@ -89,6 +97,7 @@ public abstract class KCBaseUrdAction<T extends FragmentActivity> implements IUr
             onBuildIntent(intent);
             activity.startActivityForResult(intent, requestCode);
         }
+        kcUrdMetaData.resetData();
     }
 
 
@@ -131,9 +140,17 @@ public abstract class KCBaseUrdAction<T extends FragmentActivity> implements IUr
      */
     public abstract String defaultH5Path();
 
+    public String getDebugH5Path(){
+        return "";
+    }
+
+    /**
+     * 获得当前执行环境的模版根路径
+     * @return
+     */
     public String getRootFilePath() {
         return KCUrdEnv.isRemoteDebugEnable() ?
-                KCUrdEnv.getRemoteDebugUrl() + "/html" :
+                KCUrdEnv.getRemoteDebugUrl():
                 "file://" + KCUrdMetaData.getWebViewPath().getResRootPath();
     }
 

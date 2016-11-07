@@ -1,5 +1,6 @@
 package com.kercer.kerkeeplus.urd;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
 import android.net.Uri;
@@ -63,6 +64,11 @@ public class KCUrdMetaData {
      * 当前urd所使用的scheme
      */
     private String scheme = KCUriDispatcher.getDefaultScheme();
+
+    /**
+     * 当前的Activity
+     */
+    private Activity activity;
 
     /**
      * 构造基础路径
@@ -258,6 +264,7 @@ public class KCUrdMetaData {
         defaultUrl = "";
         rootFilePath = "";
         scheme = "";
+        activity = null;
     }
 
 
@@ -311,5 +318,13 @@ public class KCUrdMetaData {
 
     void setScheme(String scheme) {
         this.scheme = scheme;
+    }
+
+    public Activity getActivity() {
+        return activity;
+    }
+
+    void setActivity(Activity activity) {
+        this.activity = activity;
     }
 }
