@@ -55,7 +55,7 @@ public abstract class KCBaseUrdAction<T extends FragmentActivity> implements IUr
      * @param objects 如果不为空，默认第一项为activity
      */
     @Override
-    public final void invokeAction(List<KCNameValuePair> params, Object... objects){
+    public void invokeAction(List<KCNameValuePair> params, Object... objects){
         if (objects != null && objects.length > 0 && objects[0] instanceof FragmentActivity)
             kcUrdMetaData.setActivity((FragmentActivity) objects[0]);
         if (!shouldRedirect(kcUrdMetaData)) {
