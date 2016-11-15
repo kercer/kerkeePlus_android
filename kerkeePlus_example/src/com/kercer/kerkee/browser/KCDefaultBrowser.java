@@ -11,7 +11,6 @@ import android.webkit.WebView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.kercer.kerkee.browser.page.KCPage;
 import com.kercer.kerkee.webview.KCWebChromeClient;
 import com.kercer.kerkee.webview.KCWebView;
 import com.kercer.kerkee.webview.KCWebViewClient;
@@ -75,7 +74,7 @@ public class KCDefaultBrowser extends KCPage implements View.OnClickListener
         (mBtnBrowserBack = (ImageButton) findViewById(R.id.btnBrowserBack)).setOnClickListener(this);
         (mBtnBrowserForward = (ImageButton) findViewById(R.id.btnBrowserForward)).setOnClickListener(this);
 
-        mJSBridge = new KCJSBridge(mWebView);
+        mJSBridge = new KCJSBridge();
 
     }
 
@@ -120,7 +119,7 @@ public class KCDefaultBrowser extends KCPage implements View.OnClickListener
 
     public void destroy()
     {
-        mJSBridge.destroy();
+        KCJSBridge.destroyWebview(mWebView);
     }
 
     public void reLoadBtnPressed()
