@@ -58,16 +58,9 @@ public abstract class KCBaseUrdAction<T extends FragmentActivity> implements IUr
     public void invokeAction(List<KCNameValuePair> params, Object... objects){
         if (objects != null && objects.length > 0 && objects[0] instanceof FragmentActivity)
             kcUrdMetaData.setActivity((FragmentActivity) objects[0]);
-        if (!shouldRedirect(kcUrdMetaData)) {
-            if (kcUrdMetaData.getActivity()!=null) {
-                execActionForResult(kcUrdMetaData.getActivity(), requestCode);
-            } else {
-                execAction();
-            }
-        }
+        execAction();
         kcUrdMetaData.setActivity(null);
     }
-
 
     /**
      * 执行页面调度
@@ -75,12 +68,14 @@ public abstract class KCBaseUrdAction<T extends FragmentActivity> implements IUr
      * @param intentFlags
      */
     public void execAction(int... intentFlags) {
-        kcUrdMetaData.initFlags();
-        if (intentFlags != null && intentFlags.length > 0)
-            kcUrdMetaData.initIntentFlags(intentFlags);
-        Intent intent = kcUrdMetaData.getIntent();
-        onBuildIntent(intent);
-        KCUrdEnv.getApplication().startActivity(intent);
+        if (!shouldRedirect(kcUrdMetaData)) {
+            kcUrdMetaData.initFlags();
+            if (intentFlags != null && intentFlags.length > 0)
+                kcUrdMetaData.initIntentFlags(intentFlags);
+            Intent intent = kcUrdMetaData.getIntent();
+            onBuildIntent(intent);
+            KCUrdEnv.getApplication().startActivity(intent);
+        }
     }
 
     /**
@@ -92,11 +87,31 @@ public abstract class KCBaseUrdAction<T extends FragmentActivity> implements IUr
      * @param intentFlags intentFlags
      */
     public void execActionForResult(Activity activity, int requestCode, int... intentFlags) {
-        if (intentFlags != null && intentFlags.length > 0)
-            kcUrdMetaData.initIntentFlags(intentFlags);
-        Intent intent = kcUrdMetaData.getIntent();
-        onBuildIntent(intent);
-        activity.startActivityForResult(intent, requestCode);
+        if (!shouldRedirect(kcUrdMetaData)) {
+            if (intentFlags != null && intentFlags.length > 0)
+                kcUrdMetaData.initIntentFlags(intentFlags);
+            Intent intent = kcUrdMetaData.getIntent();
+            onBuildIntent(intent);
+            activity.startActivityForResult(intent, requestCode);
+        }
+    }
+
+    /**
+     * 执行可以获取返回结果的activity跳转动作
+     * activity 可以从 {@link #invokeAction(List, Object...)}中的object数组中获得
+     *
+     * @param requestCode
+     * @param intentFlags intentFlags
+     */
+    public void execActionForResult(int requestCode, int... intentFlags) {
+        if (!shouldRedirect(kcUrdMetaData)) {
+            if (intentFlags != null && intentFlags.length > 0)
+                kcUrdMetaData.initIntentFlags(intentFlags);
+            Intent intent = kcUrdMetaData.getIntent();
+            onBuildIntent(intent);
+            if (kcUrdMetaData.getActivity()!=null)
+                kcUrdMetaData.getActivity().startActivityForResult(intent, requestCode);
+        }
     }
 
 
