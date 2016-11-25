@@ -65,7 +65,7 @@ public abstract class KCBaseUrdAction<T extends FragmentActivity> implements IUr
                 execAction();
             }
         }
-        kcUrdMetaData.resetData();
+        kcUrdMetaData.setActivity(null);
     }
 
 
