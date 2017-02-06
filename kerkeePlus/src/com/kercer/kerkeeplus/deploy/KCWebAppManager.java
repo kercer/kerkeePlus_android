@@ -259,10 +259,32 @@ public class KCWebAppManager
         if (mDeployInstall != null) mDeployInstall.installWebApp(aWebApp);
     }
 
+
+    public void destroy()
+    {
+        try
+        {
+            if (mDB != null && mDB.isOpen())
+            {
+                mDB.close();
+                mDB = null;
+            }
+        }
+        catch (Exception e)
+        {
+            KCLog.e(e);
+        }
+
+    }
+
     @Override
     protected void finalize() throws Throwable
     {
-        if (mDB != null) mDB.close();
+        if (mDB != null && mDB.isOpen())
+        {
+            mDB.close();
+            mDB = null;
+        }
     }
 
 }
