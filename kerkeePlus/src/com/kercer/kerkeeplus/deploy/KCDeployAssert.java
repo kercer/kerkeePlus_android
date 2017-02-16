@@ -6,6 +6,7 @@ import com.kercer.kercore.debug.KCLog;
 import com.kercer.kercore.io.KCAssetTool;
 import com.kercer.kercore.task.KCTaskExecutor;
 import com.kercer.kercore.io.KCUtilFile;
+import com.kercer.kercore.util.KCUtilText;
 
 import java.io.File;
 
@@ -14,7 +15,7 @@ import java.io.File;
  */
 public class KCDeployAssert
 {
-    public static String kDefaultAssetFileName = "html.dek";
+    public static String kDefaultAssetFileName = "main.dek";
     private String mAssetFileName = kDefaultAssetFileName;
     private KCDeploy mDeploy;
 
@@ -23,10 +24,11 @@ public class KCDeployAssert
         mDeploy = aDeploy;
     }
 
-    private File copyAssetDekFile(Context aContext)
+    private File copyAssetDekFile(Context aContext, String aAssetFileName)
     {
+        if (KCUtilText.isEmpty(aAssetFileName)) return null;
         KCAssetTool assetTool = new KCAssetTool(aContext);
-        File tmpDesFile = new File(mDeploy.getRootPath() + "/" + mAssetFileName);
+        File tmpDesFile = new File(mDeploy.getRootPath() + "/" + aAssetFileName);
         try
         {
             File fileDir = new File(mDeploy.getRootPath());
@@ -56,7 +58,7 @@ public class KCDeployAssert
 
     public boolean deployFromAssert(Context aContext)
     {
-        final File srcFile = copyAssetDekFile(aContext);
+        final File srcFile = copyAssetDekFile(aContext, mAssetFileName);
         File htmlDir = new File(mDeploy.getResRootPath());
         KCDek dek = new KCDek(htmlDir);
         dek.mIsFromAssert = true;

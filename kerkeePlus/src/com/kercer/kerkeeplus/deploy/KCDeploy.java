@@ -62,7 +62,7 @@ public class KCDeploy
 
     protected boolean deploy(File aSrcFile, KCDek aDek)
     {
-        if (aSrcFile.exists())
+        if (aSrcFile != null && aSrcFile.exists() && aDek != null)
         {
             File tmpZipFile = mDeployFlow.decodeFile(aSrcFile, aDek);
             if (tmpZipFile != null && tmpZipFile.exists())

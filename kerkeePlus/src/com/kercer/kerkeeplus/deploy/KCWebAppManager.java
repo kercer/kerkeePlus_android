@@ -152,7 +152,7 @@ public class KCWebAppManager
                         manifestUri = KCURI.parse(manifestUrl);
                     }
 
-                    final KCWebApp webApp = new KCWebApp(id,fileRoot, manifestUri);
+                    final KCWebApp webApp = new KCWebApp(id, fileRoot, manifestUri);
                     addWebApp(webApp);
                 }
             }

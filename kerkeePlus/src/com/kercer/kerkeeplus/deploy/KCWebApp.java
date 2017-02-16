@@ -15,7 +15,7 @@ import java.io.File;
  */
 public class KCWebApp implements KCDBObject
 {
-    //If ID = 0, that means the Webapp that contains all of the Webapps, and these all webapps in a file
+    //If ID = 0, that means the KCWebapp that contains all of the Webapps, and these all webapps in a Dek file
     protected int mID;
     protected KCURI mManifestURI; //webapp's root manifest url
     //    public String mFileHash;
@@ -23,6 +23,16 @@ public class KCWebApp implements KCDBObject
     private KCDek mDekSelf;
     private Object mTag;
 
+    /**
+     * KCWebApp construction
+     * @param aID
+     *            the webapp'ID,
+     *            If ID = 0, that means the KCWebapp that contains all of the Webapps, and these all webapps in a Dek file
+     * @param aRootPath
+     *            webapp's local root path
+     * @param aManifestUri
+     *            webapp's manifest uri, it is local manifest uri or server manifest uri
+     */
     public KCWebApp(int aID, File aRootPath, KCURI aManifestUri)
     {
         mID = aID;
