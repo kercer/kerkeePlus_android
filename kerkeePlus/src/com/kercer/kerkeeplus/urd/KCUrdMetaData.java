@@ -158,9 +158,15 @@ public class KCUrdMetaData {
         intent = new Intent(KCUrdEnv.getApplication(), clazz);
         //获得加载路径
         String url = getUrl();
-        intent.putExtra(KCBaseUrdAction.EXTRA_LOAD_URL, url);
+        String urlParams = "";
         if (params != null && params.size() > 0) {
             for (KCNameValuePair pair : params) {
+                if (!pair.mKey.equals(KCBaseUrdAction.URD_DATA)) {
+                    if (TextUtils.isEmpty(urlParams))
+                        urlParams += pair.mKey + "=" + pair.mValue;
+                    else
+                        urlParams += "&" + pair.mKey + "=" + pair.mValue;
+                }
                 if (pair.mKey.equalsIgnoreCase(KCBaseUrdAction.AFTER_URD)) {
                     String afterUrd = "";
                     try {
@@ -176,6 +182,14 @@ public class KCUrdMetaData {
                 }
             }
         }
+        if (!TextUtils.isEmpty(urlParams)) {
+            if (url.contains("?")) {
+                url += "&" + urlParams;
+            } else {
+                url += "?" + urlParams;
+            }
+        }
+        intent.putExtra(KCBaseUrdAction.EXTRA_LOAD_URL, url);
     }
 
     void initFlags() {
@@ -220,8 +234,8 @@ public class KCUrdMetaData {
         if (TextUtils.isEmpty(defaultUrl))
             return "";
         String urdData = "";
-        if (params!=null && params.size()>0){
-            for (KCNameValuePair pair:params){
+        if (params != null && params.size() > 0) {
+            for (KCNameValuePair pair : params) {
                 if (pair.mKey.equalsIgnoreCase(KCBaseUrdAction.URD_DATA))
                     urdData = pair.mValue;
             }
