@@ -161,12 +161,6 @@ public class KCUrdMetaData {
         String urlParams = "";
         if (params != null && params.size() > 0) {
             for (KCNameValuePair pair : params) {
-                if (!pair.mKey.equals(KCBaseUrdAction.URD_DATA)) {
-                    if (TextUtils.isEmpty(urlParams))
-                        urlParams += pair.mKey + "=" + pair.mValue;
-                    else
-                        urlParams += "&" + pair.mKey + "=" + pair.mValue;
-                }
                 if (pair.mKey.equalsIgnoreCase(KCBaseUrdAction.AFTER_URD)) {
                     String afterUrd = "";
                     try {
@@ -178,6 +172,12 @@ public class KCUrdMetaData {
                         intent.putExtra(pair.mKey, afterUrd);
                     }
                 } else {
+                    if (!pair.mKey.equals(KCBaseUrdAction.URD_DATA)) {
+                        if (TextUtils.isEmpty(urlParams))
+                            urlParams += pair.mKey + "=" + pair.mValue;
+                        else
+                            urlParams += "&" + pair.mKey + "=" + pair.mValue;
+                    }
                     intent.putExtra(pair.mKey, pair.mValue);
                 }
             }
