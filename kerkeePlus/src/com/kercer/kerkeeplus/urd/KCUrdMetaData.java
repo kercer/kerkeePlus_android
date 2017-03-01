@@ -182,7 +182,7 @@ public class KCUrdMetaData {
                 }
             }
         }
-        if (!TextUtils.isEmpty(urlParams)) {
+        if (!TextUtils.isEmpty(urlParams)&&!url.startsWith("http://")&&!url.startsWith("https://")) {
             if (url.contains("?")) {
                 url += "&" + urlParams;
             } else {
