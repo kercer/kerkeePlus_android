@@ -69,6 +69,11 @@ public class KCUrdMetaData {
      * 当前的Activity
      */
     private Activity activity;
+    /**
+     * 自动拼接参数
+     */
+    private boolean autoAppendParams = true;
+
 
     /**
      * 构造基础路径
@@ -182,7 +187,7 @@ public class KCUrdMetaData {
                 }
             }
         }
-        if (!TextUtils.isEmpty(urlParams)&&!url.startsWith("http://")&&!url.startsWith("https://")) {
+        if (!TextUtils.isEmpty(urlParams) && autoAppendParams) {
             if (url.contains("?")) {
                 url += "&" + urlParams;
             } else {
@@ -340,5 +345,13 @@ public class KCUrdMetaData {
 
     void setActivity(Activity activity) {
         this.activity = activity;
+    }
+
+    public boolean isAutoAppendParams() {
+        return autoAppendParams;
+    }
+
+    public void setAutoAppendParams(boolean autoAppendParams) {
+        this.autoAppendParams = autoAppendParams;
     }
 }
