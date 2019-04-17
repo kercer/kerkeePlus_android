@@ -5,6 +5,10 @@ buildscript {
         google()
         jcenter()
         mavenCentral()
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.3.2'
@@ -22,6 +26,10 @@ allprojects {
         jcenter()
         maven {
             url "http://scm.linzihong.com/nexus/content/repositories/releases/"
+        }
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
         }
     }
 }

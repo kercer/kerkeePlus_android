@@ -113,6 +113,6 @@ public class KCDeploy
     protected boolean checkHtmlDir(Context context)
     {
         File file = new File(getRootPath() + "/html");
-        return file.exists();
+        return file.exists() && file.listFiles().length > 0;
     }
 }
