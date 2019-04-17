@@ -5,12 +5,11 @@ android {
         abortOnError false
     }
 
-    compileSdkVersion 21
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 27
 
     defaultConfig {
-        minSdkVersion 8
-        targetSdkVersion 19
+        minSdkVersion 14
+        targetSdkVersion 25
         versionCode 2
         versionName "1.0.1"
         resValue "string", "ker__authority", "com.kercer.kerkeePlus"
@@ -38,7 +37,7 @@ android {
         }
 
         // Move the tests to tests/java, tests/res, etc...
-        instrumentTest.setRoot('tests')
+        androidTest.setRoot('tests')
 
         // Move the build types to build-types/<type>
         // For instance, build-types/debug/java, build-types/debug/AndroidManifest.xml, ...
@@ -52,8 +51,8 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: '*.jar')
+    implementation fileTree(dir: 'libs', include: '*.jar')
 //    compile "com.kercer:kerkeePlus:0.1.24"
 
-    compile project(':kerkeePlus')
+    implementation project(':kerkeePlus')
 }
