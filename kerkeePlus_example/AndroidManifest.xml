@@ -25,11 +25,10 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <activity android:name="com.kercer.kerkee.activity.KCUrdActivity" />
         <activity android:name="com.kercer.kerkee.activity.UserCenterActivity" />
-        <activity
-            android:name="com.kercer.kerkee.activity.LoginActivity"
-            android:label="@string/title_activity_login"></activity>
+<!--        <activity-->
+<!--            android:name="com.kercer.kerkee.activity.LoginActivity"-->
+<!--            android:label="@string/title_activity_login"></activity>-->
     </application>
 
 </manifest>
