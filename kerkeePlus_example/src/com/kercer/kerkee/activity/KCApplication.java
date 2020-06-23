@@ -9,9 +9,6 @@ import com.kercer.kerkeeplus.deploy.KCWebAppManager;
 
 import java.io.File;
 
-/**
- * Created by liweisu on 16/5/13.
- */
 public class KCApplication extends Application {
     public static Application instance;
     KCWebAppManager mWebAppManager;
@@ -19,8 +16,7 @@ public class KCApplication extends Application {
     public void onCreate() {
         super.onCreate();
         deployWebApp();
-        //初始化urd
-        UrdSample.initUrd(this);
+
         instance = this;
     }
 

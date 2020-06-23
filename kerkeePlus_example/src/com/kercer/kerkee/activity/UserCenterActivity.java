@@ -6,9 +6,7 @@ import com.kercer.kerkee_example.R;
 import com.kercer.kerkeeplus.base.KCBaseWebView;
 import com.kercer.kerkeeplus.base.KCH5BaseActivity;
 
-/**
- * Created by liweisu on 16/5/13.
- */
+
 public class UserCenterActivity extends KCH5BaseActivity {
     KCBaseWebView kcBaseWebView;
     @Override
@@ -23,4 +21,10 @@ public class UserCenterActivity extends KCH5BaseActivity {
     public KCBaseWebView getCurrentWebView() {
         return kcBaseWebView;
     }
+
+  @Override
+  public String getLoadUrl()
+  {
+    return null;
+  }
 }
